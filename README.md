@@ -40,7 +40,7 @@ A comunicação é feita de forma simples e direta, o dispositivo apenas conecta
 | GND | GND |
 
 
-<p align="center">
+<p>
   <img src="./imgs/esquema_de_ligacao.png" width="600">
 </p>
 
@@ -120,7 +120,7 @@ void conectarMQTT() {
     delay(500);
   }
 }
-
+```
 ## 👥 Integrantes do Grupo
 
 <p align="center">
