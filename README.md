@@ -53,7 +53,7 @@ A comunicação é feita de forma simples e direta, o dispositivo apenas conecta
   </a>
   </p>
 
-## 💻 Código-Fonte (ESP32)
+## Código (ESP32)
 
 ```cpp
 #include <WiFi.h>
