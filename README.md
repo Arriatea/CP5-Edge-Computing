@@ -122,5 +122,30 @@ void conectarMQTT() {
 }
 
 ## 👥 Integrantes do Grupo
-| [<img loading="lazy" src="./imgs/Vitor.png" width=115><br><sub>Vitor Alcantara</sub>](https://github.com/VitorAlcantara-tech) | [<img loading="lazy" src="./imgs/Thiago.png" width=115><br><sub>Thiago Lima</sub>](https://github.com/thiagolima-tech) |  [<img loading="lazy" src="./imgs/Matheus.png" width=115><br><sub>Matheus Vasques</sub>](https://github.com/maatvasques) | [<img loading="lazy" src="./imgs/Marco.png" width=115><br><sub>Marco Aurélio</sub>](https://github.com/Arriatea) | [<img loading="lazy" src="./imgs/Bernardo.png" width=115><br><sub>Bernardo Hanashiro</sub>](https://github.com/BernardoYuji) | 
-| :---: | :---: | :---: | :---: | :---: |
+
+<p align="center">
+  <a href="https://github.com/VitorAlcantara-tech">
+    <img src="./imgs/Vitor.png" width="115"><br>
+    <sub><b>Vitor Alcantara</b></sub>
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://github.com/thiagolima-tech">
+    <img src="./imgs/Thiago.png" width="115"><br>
+    <sub><b>Thiago Lima</b></sub>
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://github.com/maatvasques">
+    <img src="./imgs/Matheus.png" width="115"><br>
+    <sub><b>Matheus Vasques</b></sub>
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://github.com/Arriatea">
+    <img src="./imgs/Marco.png" width="115"><br>
+    <sub><b>Marco Aurélio</b></sub>
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://github.com/BernardoYuji">
+    <img src="./imgs/Bernardo.png" width="115"><br>
+    <sub><b>Bernardo Hanashiro</b></sub>
+  </a>
+</p>
