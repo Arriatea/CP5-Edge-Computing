@@ -39,7 +39,19 @@ A comunicação é feita de forma simples e direta, o dispositivo apenas conecta
 | VCC | 5V |
 | GND | GND |
 
+
+<p align="center">
+  <img src="./imgs/esquema_de_ligacao.png" width="600">
+</p>
+
 ---
+
+## Simulação no Wokwi
+<p align="center">
+ <a href="https://wokwi.com/projects/445707707360387073" target="_blank">
+ <img src="https://img.shields.io/badge/Abrir%20no%20Wokwi-00C853?style=for-the-badge&logo=arduino&logoColor=white">
+  </a>
+  </p>
 
 ## 💻 Código-Fonte (ESP32)
 
@@ -108,3 +120,7 @@ void conectarMQTT() {
     delay(500);
   }
 }
+
+## 👥 Integrantes do Grupo
+| [<img loading="lazy" src="./imgs/Vitor.png" width=115><br><sub>Vitor Alcantara</sub>](https://github.com/VitorAlcantara-tech) | [<img loading="lazy" src="./imgs/Thiago.png" width=115><br><sub>Thiago Lima</sub>](https://github.com/thiagolima-tech) |  [<img loading="lazy" src="./imgs/Matheus.png" width=115><br><sub>Matheus Vasques</sub>](https://github.com/maatvasques) | [<img loading="lazy" src="./imgs/Marco.png" width=115><br><sub>Marco Aurélio</sub>](https://github.com/Arriatea) | [<img loading="lazy" src="./imgs/Bernardo.png" width=115><br><sub>Bernardo Hanashiro</sub>](https://github.com/BernardoYuji) | 
+| :---: | :---: | :---: | :---: | :---: |
