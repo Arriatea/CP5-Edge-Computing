@@ -56,69 +56,131 @@ A comunicação é feita de forma simples e direta, o dispositivo apenas conecta
 ## Código (ESP32)
 
 ```cpp
+#include <ArduinoJson.h>
+#include <DHT.h>
+#include <Wire.h>
 #include <WiFi.h>
 #include <PubSubClient.h>
-#include <DHT.h>
 
-#define DHTPIN 23
-#define DHTTYPE DHT22
-#define LDR_PIN 13
+const char* SSID = "FIAP-IOT";
 
-// Configurações Wi-Fi
-const char* ssid = "NOME_DA_REDE";
-const char* password = "SENHA_DA_REDE";
+const char* PASSWORD = "F!@p25.IOT";
+const char* BROKER_MQTT = "54.221.163.3";
 
-// Configurações MQTT
-const char* mqtt_server = "IP_DO_SERVIDOR";
-const int mqtt_port = 69; // Porta
-const char* topicTemp = "sensor/temperatura";
-const char* topicUmid = "sensor/umidade";
-const char* topicLuz = "sensor/luminosidade";
+const int BROKER_PORT = 1883;
+const char* TOPICO_SUBSCRIBE = "/TEF/device069/cmd";
+
+const char* TOPICO_PUBLISH_1 = "/TEF/device069/attrs";
+
+const char* TOPICO_PUBLISH_2 = "/TEF/device069/attrs/p";
+const char* ID_MQTT = "fiware_069";
+const char* topicPrefix = "device069";
+
+
+#define DHTPIN 4       
+#define DHTTYPE DHT22  
+#define LDR_PIN 34  
+
 
 WiFiClient espClient;
-PubSubClient client(espClient);
+PubSubClient MQTT(espClient);
 DHT dht(DHTPIN, DHTTYPE);
 
+
+void initSerial() {
+  Serial.begin(9600);
+}
+
+void reconectWiFi() {
+  if (WiFi.status() == WL_CONNECTED) return;
+  WiFi.begin(SSID, PASSWORD);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(100);
+    Serial.print(".");
+  }
+  Serial.println("\nConectado ao Wi-Fi. IP: " + WiFi.localIP().toString());
+}
+
+void initWiFi() {
+  delay(10);
+  Serial.println("Conexao WI-FI");
+  reconectWiFi();
+}
+
+void mqtt_callback(char* topic, byte* payload, unsigned int length) {
+  String msg;
+  for (int i = 0; i < length; i++) msg += (char)payload[i];
+  Serial.println("Mensagem recebida: " + msg);
+}
+
+void initMQTT() {
+  MQTT.setServer(BROKER_MQTT, BROKER_PORT);
+  MQTT.setCallback(mqtt_callback);
+}
+
+void reconnectMQTT() {
+  while (!MQTT.connected()) {
+    Serial.print("Tentando conectar ao broker...");
+    if (MQTT.connect(ID_MQTT)) {
+      Serial.println("Conectado!");
+      MQTT.subscribe(TOPICO_SUBSCRIBE);
+    } else {
+      Serial.println("Falha. Tentando em 2s.");
+      delay(2000);
+    }
+  }
+}
+
+void VerificaConexoesWiFIEMQTT() {
+  if (!MQTT.connected()) reconnectMQTT();
+  reconectWiFi();
+}
+
 void setup() {
-  Serial.begin(115200);
+  initSerial();
+  initWiFi();
+  initMQTT();
   dht.begin();
-  conectarWiFi();
-  client.setServer(mqtt_server, mqtt_port);
-  conectarMQTT();
 }
 
 void loop() {
-  if (!client.connected()) {
-    conectarMQTT();
-  }
+  VerificaConexoesWiFIEMQTT();
+  MQTT.loop();
 
-  float temperatura = dht.readTemperature();
   float umidade = dht.readHumidity();
-  int luz = analogRead(LDR_PIN);
+  float temperatura = dht.readTemperature();
+  int LDR = analogRead(LDR_PIN);
 
-  if (!isnan(temperatura) && !isnan(umidade)) {
-    client.publish(topicTemp, String(temperatura).c_str());
-    client.publish(topicUmid, String(umidade).c_str());
-    client.publish(topicLuz, String(luz).c_str());
+  if (isnan(umidade) || isnan(temperatura)) {
+    Serial.println("Erro ao ler o sensor DHT!");
+    return;
   }
 
-  delay(5000); // Envia a cada 5 segundos
-}
+  Serial.print("Umidade: ");
+  Serial.print(umidade, 1);
+  Serial.print("%  ");
 
-void conectarWiFi() {
-  WiFi.begin(ssid, password);
-  unsigned long inicio = millis();
-  while (WiFi.status() != WL_CONNECTED && millis() - inicio < 5000) {
-    delay(500);
-  }
-}
+  Serial.print("Temperatura: ");
+  Serial.print(temperatura, 1);
+  Serial.print(" °C  ");
 
-void conectarMQTT() {
-  unsigned long inicio = millis();
-  while (!client.connected() && millis() - inicio < 5000) {
-    client.connect("ESP32_Client");
-    delay(500);
-  }
+  Serial.print("LDR: ");
+  Serial.println(LDR);
+
+  StaticJsonDocument<256> doc;
+  doc["umidade"] = umidade;
+  
+  doc["temperatura"] = temperatura;
+  doc["LDR"] = LDR;
+
+  char buffer[256];
+  serializeJson(doc, buffer);
+
+  MQTT.publish(TOPICO_PUBLISH_2, buffer);
+  Serial.print("Enviado: ");
+  Serial.println(buffer);
+
+  delay(1000);
 }
 ```
 ## 👥 Integrantes do Grupo
